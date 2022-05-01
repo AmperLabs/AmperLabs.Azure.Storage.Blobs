@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmperLabs.Azure.Storage.Blobs", "AmperLabs.Azure.Storage.Blobs\AmperLabs.Azure.Storage.Blobs.csproj", "{6B74674F-59AA-458A-8CEB-F152B38F0C40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{F0AFF71D-89B9-4810-A278-1C8709F4721A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Console", "Samples.Console\Samples.Console.csproj", "{8AA80BD4-B2F6-44E1-8688-1D48C183F2FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B74674F-59AA-458A-8CEB-F152B38F0C40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B74674F-59AA-458A-8CEB-F152B38F0C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B74674F-59AA-458A-8CEB-F152B38F0C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B74674F-59AA-458A-8CEB-F152B38F0C40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0AFF71D-89B9-4810-A278-1C8709F4721A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0AFF71D-89B9-4810-A278-1C8709F4721A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0AFF71D-89B9-4810-A278-1C8709F4721A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0AFF71D-89B9-4810-A278-1C8709F4721A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AA80BD4-B2F6-44E1-8688-1D48C183F2FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AA80BD4-B2F6-44E1-8688-1D48C183F2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AA80BD4-B2F6-44E1-8688-1D48C183F2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AA80BD4-B2F6-44E1-8688-1D48C183F2FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
