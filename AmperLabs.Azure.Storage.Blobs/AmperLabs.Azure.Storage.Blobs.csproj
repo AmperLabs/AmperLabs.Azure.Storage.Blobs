@@ -2,10 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Alexander Neumann</Authors>
+    <Description>.</Description>
+    
+    <PackageId>AmperLabs.Azure.Storage.Blobs</PackageId>
+    <PackageTags></PackageTags>    
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/AmperLabs/AmperLabs.Azure.Storage.Blobs</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="azure.storage.blobs" Version="12.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
