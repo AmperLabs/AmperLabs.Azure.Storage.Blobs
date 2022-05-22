@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
@@ -110,10 +111,69 @@ namespace AmperLabs.Azure.Storage.Blobs
                 }
             }
         }
-    
-        public static async Task DownloadBlobsToZipAsync(this BlobContainerClient containerClient, string targetFilename, string prefix = null)
+
+        /// <summary>
+        /// Downloads the files from an Azure Blob Storage Container to a Zip Archive stream
+        /// </summary>
+        /// <param name="zipFileStream">Stream to write the Zip Archive to</param>
+        /// <param name="prefix">Optional. If set, only files from the this virtual directory are downloaded</param>
+        public static async Task DownloadBlobsToZipStreamAsync(this BlobContainerClient containerClient, Stream zipFileStream, string prefix = null)
         {
-            throw new NotImplementedException();
+            if (!(await containerClient.ExistsAsync()))
+                throw new Exception($"Container '{containerClient.Name}' does not exist.");
+
+            if (!string.IsNullOrEmpty(prefix))
+                prefix = prefix.Replace("\\", "/");
+
+            using (var zip = new ZipArchive(zipFileStream, ZipArchiveMode.Create, leaveOpen: true))
+            {
+                foreach (var item in containerClient.GetBlobs(prefix: prefix))
+                {
+                    var localPath = !string.IsNullOrEmpty(prefix) && item.Name.StartsWith(prefix) ?
+                                    item.Name.Substring(prefix.Length + 1) :
+                                    item.Name;
+
+                    Console.WriteLine($"Creating entry {localPath} in Zip Archive for remote file {item.Name} in [{containerClient.Name}].");
+
+                    var entry = zip.CreateEntry(localPath);
+                    using (var entryStream = entry.Open())
+                    {
+                        try
+                        {
+                            var blob = containerClient.GetBlobClient(item.Name);
+                            await blob.DownloadToAsync(entryStream);
+                            Console.WriteLine($"Downloading '[{containerClient.Name}] {item.Name}' to '{localPath}' in Zip Archive.");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Downloading '[{containerClient.Name}] {item.Name}' to '{localPath}' in Zip Archive failed.");
+                        }
+                    }
+                }
+            }
+
+            zipFileStream.Seek(0, SeekOrigin.Begin);
+        }
+
+        /// <summary>
+        /// Downloads the files from an Azure Blob Storage Container to a Zip Archive file
+        /// </summary>
+        /// <param name="zipFilePath">Path of the target Zip Archive</param>
+        /// <param name="prefix">Optional. If set, only files from the this virtual directory are downloaded</param>
+        public static async Task DownloadBlobsToZipFileAsync(this BlobContainerClient containerClient, string zipFilePath, string prefix = null)
+        {
+            if (!Directory.Exists(Path.GetDirectoryName(zipFilePath)))
+            {
+                Console.WriteLine($"Creating download directory {Path.GetDirectoryName(zipFilePath)}.");
+                Directory.CreateDirectory(Path.GetDirectoryName(zipFilePath));
+            }
+
+            using(var zip = new FileStream(zipFilePath, FileMode.Create))
+            {
+                Console.WriteLine($"Creating Zip Archive {zipFilePath}.");
+                await containerClient.DownloadBlobsToZipStreamAsync(zip, prefix);
+                zip.Close();
+            }            
         }
 
         /// <summary>

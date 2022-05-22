@@ -21,5 +21,25 @@ _containerClient.CreateIfNotExists();
 //await _containerClient.DownloadBlobsToAsync(@"D:\Temp\StorageTestDownload");
 //await _containerClient.DownloadBlobsToAsync(@"D:\Temp\StorageTestDownload", "Folder");
 
-await _containerClient.DeleteBlobsAsync();
+//await _containerClient.DeleteBlobsAsync();
 //await _containerClient.DeleteBlobsAsync("Folder");
+
+
+var zipFilePath = @"D:\Temp\ZipDownload\archive.zip";
+if(!Directory.Exists(Path.GetDirectoryName(zipFilePath)))
+    Directory.CreateDirectory(Path.GetDirectoryName(zipFilePath));
+
+using var zip = new FileStream(zipFilePath, FileMode.Create);
+await _containerClient.DownloadBlobsToZipStreamAsync(zip);
+zip.Close();
+
+var zipFileFolderPath = @"D:\Temp\ZipDownload\folder.zip";
+if(!Directory.Exists(Path.GetDirectoryName(zipFileFolderPath)))
+    Directory.CreateDirectory(Path.GetDirectoryName(zipFileFolderPath));
+
+using var zipFolder = new FileStream(zipFileFolderPath, FileMode.Create);
+await _containerClient.DownloadBlobsToZipStreamAsync(zipFolder, "Folder");
+zipFolder.Close();
+
+await _containerClient.DownloadBlobsToZipFileAsync(@"D:\Temp\ZipDownload\archive2.zip");
+await _containerClient.DownloadBlobsToZipFileAsync(@"D:\Temp\ZipDownload\folder2.zip", "Folder");
